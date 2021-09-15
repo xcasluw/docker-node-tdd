@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const truncate = require('../utils/truncate')
 const factory = require('../factories')
 

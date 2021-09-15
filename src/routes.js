@@ -4,6 +4,10 @@ const authMiddleware = require('./app/middlewares/auth')
 
 const SessionController = require('./app/controllers/SessionController')
 
+routes.get('/', (req, res) => {
+  return res.json({ msg: 'API OK' })
+})
+
 routes.post('/sessions', SessionController.store)
 
 routes.use(authMiddleware)

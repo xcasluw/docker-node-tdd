@@ -1,0 +1,17 @@
+*.md
+*.map
+.env*
+.git
+.idea
+.config
+.npm
+.circleci
+.gitignore
+.editorconfig
+coverage
+certs
+Dockerfile
+nodemon.json
+node_modules
+npm-debug.log
+docker-compose.yml
