@@ -10,6 +10,26 @@ describe('Authentication', () => {
     await truncate()
   })
 
+  it('should return 400 if email is not provided', async () => {
+    const response = await request(app.express)
+      .post('/sessions')
+      .send({
+        password: '123456'
+      })
+
+    expect(response.status).toBe(400)
+  })
+
+  it('should return 400 if password is not provided', async () => {
+    const response = await request(app.express)
+      .post('/sessions')
+      .send({
+        email: 'xyz@email.com',
+      })
+
+    expect(response.status).toBe(400)
+  })
+
   it('should return 401 if email is invalid', async () => {
     const response = await request(app.express)
       .post('/sessions')

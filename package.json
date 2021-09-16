@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
-    "dev": "nodemon index.js --ignore __tests__",
+    "start": "nodemon src/index.js",
+    "dev": "nodemon src/index.js --ignore __tests__",
     "pretest": "",
     "test": "jest --detectOpenHandles",
     "posttest": ""

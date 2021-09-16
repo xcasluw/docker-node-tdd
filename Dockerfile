@@ -1,4 +1,4 @@
-FROM node:14.17-alpine
+FROM node:alpine
 
 WORKDIR /usr/src/app
 
@@ -8,6 +8,4 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
-
-CMD ["npm", "start"]
+ENTRYPOINT npx sequelize db:migrate && npm run dev
