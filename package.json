@@ -5,9 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon src/index.js",
-    "dev": "nodemon src/index.js --ignore __tests__",
+    "dev": "nodemon src/index.js",
     "pretest": "",
     "test": "jest --detectOpenHandles",
+    "test:unique": "jest --detectOpenHandles -i __tests__/integration/user.test.js -t",
     "posttest": ""
   },
   "keywords": [],
@@ -19,6 +20,7 @@
     "express": "^4.17.1",
     "factory-girl": "^5.0.4",
     "faker": "^5.5.3",
+    "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.0",
     "sequelize": "^6.6.5"

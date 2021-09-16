@@ -16,7 +16,7 @@ services:
       - db
     ports:
       - ${APP_PORT}:3000
-    command: npm start
+    command: 'npm install && npm start'
 
   db:
     image: mysql:5.7

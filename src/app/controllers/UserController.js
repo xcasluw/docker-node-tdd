@@ -1,34 +1,30 @@
-const { User } = require('../../database/models')
+const { createUserSchema } = require('../validators/user.validator')
+const userRepository = require('../repositories/UserRepository')
 
 class UserController {
   async store(req, res) {
+    const { error } = createUserSchema.validate(req.body)
+
+    if (error) {
+      const msg = error.details[0].message.replace(/"/g, '')
+      return res.status(400).json({ error: msg })
+    }
+
     const { name, email, password } = req.body
 
-    if (!name) {
-      return res.status(400).json({ error: 'Name not provided' })
-    }
-
-    if (!email) {
-      return res.status(400).json({ error: 'Email not provided' })
-    }
-
-    if (!password) {
-      return res.status(400).json({ error: 'Password not provided' })
-    }
-
-    const userExists = await User.findOne({ where: { email } })
+    const userExists = await userRepository.findUserByEmail(email)
 
     if (userExists) {
-      return res.status(400).json({ error: 'User already exists' })
+      return res.status(400).json({ error: 'An user with provided email already exists' })
     }
 
-    const user = await User.create({ 
-      name, email, password
-     })
+    const user = await userRepository.createUser(name, email, password)
 
-    return res.json({ 
-      user
-    })
+    if (user) {
+      return res.status(200).json({ user })
+    } else {
+      return res.status(400).json({ error: 'There was an error creating the user' })
+    }
   }
 }
 

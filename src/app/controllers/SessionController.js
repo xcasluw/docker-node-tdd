@@ -1,30 +1,36 @@
-const { User } = require('../../database/models')
+const { sessionSchema } = require('../validators/session.validator')
+const sessionRepository = require('../repositories/SessionRepository')
 
 class SessionController {
   async store(req, res) {
+    const { error } = sessionSchema.validate(req.body)
+
+    if (error) {
+      const msg = error.details[0].message.replace(/"/g, '')
+      return res.status(400).json({ error: msg })
+    }
+
     const { email, password } = req.body
 
-    if (!email) {
-      return res.status(400).json({ error: 'Email not provided' })
-    }
+    const userDB = await sessionRepository.findUserByEmail(email)
 
-    if (!password) {
-      return res.status(400).json({ error: 'Password not provided' })
-    }
-
-    const user = await User.findOne({ where: { email } })
-
-    if (!user) {
+    if (!userDB) {
       return res.status(401).json({ error: 'User not found' })
     }
 
-    if (!(await user.checkPassword(password))) {
+    if (!(await userDB.checkPassword(password))) {
       return res.status(401).json({ error: 'Wrong password' })
+    }
+
+    const user = {
+      id: userDB.id,
+      name: userDB.name,
+      email: userDB.email,
     }
 
     return res.json({ 
       user,
-      token: user.generateToken()
+      token: userDB.generateToken()
     })
   }
 }
