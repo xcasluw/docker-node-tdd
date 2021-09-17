@@ -9,6 +9,7 @@
     "pretest": "",
     "test": "jest --detectOpenHandles",
     "test:unique": "jest --detectOpenHandles -i __tests__/integration/user.test.js -t",
+    "test:docker": "docker exec -it tdd-node-api npx jest --detectOpenHandles --watchAll",
     "posttest": ""
   },
   "keywords": [],
