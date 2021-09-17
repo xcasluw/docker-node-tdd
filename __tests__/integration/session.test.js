@@ -18,6 +18,7 @@ describe('Authentication', () => {
       })
 
     expect(response.status).toBe(400)
+    expect(response.body).toEqual({ error: 'email is required' })
   })
 
   it('should return 400 if password is not provided', async () => {
@@ -28,9 +29,10 @@ describe('Authentication', () => {
       })
 
     expect(response.status).toBe(400)
+    expect(response.body).toEqual({ error: 'password is required' })
   })
 
-  it('should return 401 if email is invalid', async () => {
+  it('should return 401 if user is invalid', async () => {
     const response = await request(app.express)
       .post('/sessions')
       .send({
@@ -39,6 +41,7 @@ describe('Authentication', () => {
       })
 
     expect(response.status).toBe(401)
+    expect(response.body).toEqual({ error: 'User not found' })
   })
 
   it('should authenticate with valid credentials', async () => {
@@ -46,14 +49,20 @@ describe('Authentication', () => {
       password: '123456'
     })
 
+    const mockUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email
+    }
+
     const response = await request(app.express)
       .post('/sessions')
       .send({
         email: user.email,
         password: '123456'
       })
-
     expect(response.status).toBe(200)
+    expect(response.body.user).toEqual(mockUser)
   })
 
   it('should not authenticate with invalid credentials', async () => {
@@ -67,6 +76,7 @@ describe('Authentication', () => {
       })
 
     expect(response.status).toBe(401)
+    expect(response.body).toEqual({ error: 'Wrong password' })
   })
 
   it('should return jwt token when authenticated', async () => {
@@ -92,12 +102,14 @@ describe('Authentication', () => {
       .set('Authorization', `Bearer ${user.generateToken()}`)
 
     expect(response.status).toBe(200)
+    expect(response.body).toEqual({ msg: 'Dashboard is ok' })
   })
 
   it('should not access private routes without jwt token', async () => {
     const response = await request(app.express).get('/dashboard')
-
+    
     expect(response.status).toBe(401)
+    expect(response.body).toEqual({ error: 'Token not provided' })
   })
 
   it('should not access private routes with invalid jwt token', async () => {
@@ -106,5 +118,6 @@ describe('Authentication', () => {
       .set('Authorization', `Bearer 312546132546`)
 
     expect(response.status).toBe(401)
+    expect(response.body).toEqual({ error: 'jwt malformed' })
   })
 })

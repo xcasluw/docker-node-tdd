@@ -21,7 +21,6 @@ describe('User account creation', () => {
         email: 'oligena@hotmail.com',
         password: '123456'
       })
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'name is required' })
   })
@@ -33,7 +32,6 @@ describe('User account creation', () => {
         name: 'Lucas Genari',
         password: '123456'
       })
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'email is required' })
   })
@@ -45,7 +43,6 @@ describe('User account creation', () => {
         name: 'Lucas Genari',
         email: 'oligena@hotmail.com'
       })
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'password is required' })
   })
@@ -65,7 +62,6 @@ describe('User account creation', () => {
         name: user.name,
         password: '123456'
       })
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'An user with provided email already exists' })
   })
@@ -78,7 +74,6 @@ describe('User account creation', () => {
         name: 'oligena@hotmail.com',
         password: '123456'
       })
-
     expect(response.status).toBe(200)
   })
 
@@ -93,7 +88,6 @@ describe('User account creation', () => {
         name: 'oligena@hotmail.com',
         password: '123456'
       })
-
     expect(response.status).toBe(400)
     expect(response.body).toEqual({ error: 'There was an error creating the user' })
   })

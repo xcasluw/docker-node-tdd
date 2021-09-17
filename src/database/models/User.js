@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       process.env.APP_SECRET,
       { 
-        expiresIn: 60
+        expiresIn: process.env.TOKEN_EXPIRATION
       }
     )
   }

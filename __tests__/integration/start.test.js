@@ -7,5 +7,6 @@ describe('API Status', () => {
       .get('/').send()
 
     expect(response.status).toBe(200)
+    expect(response.body).toEqual({ msg: 'API OK' })
   })
 })
